@@ -1,0 +1,13 @@
+.git
+.venv
+venv
+__pycache__
+*.pyc
+*.db
+*.sqlite3
+*.log
+.pytest_cache
+.env
+phase0_reconstruct.py
+*_err.log
+agent_stdio.log

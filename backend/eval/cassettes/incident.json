@@ -1,0 +1,603 @@
+{
+  "get_inventory_events|{\"end\": \"2026-06-23\", \"start\": \"2026-06-23\"}": [
+    {
+      "sku": "TEE-BLK-M",
+      "available": 22,
+      "occurred_at": "2026-06-23T09:00:00",
+      "location_id": "loc-1"
+    },
+    {
+      "sku": "TEE-BLK-M",
+      "available": 14,
+      "occurred_at": "2026-06-23T11:00:00",
+      "location_id": "loc-1"
+    },
+    {
+      "sku": "TEE-BLK-M",
+      "available": 7,
+      "occurred_at": "2026-06-23T12:00:00",
+      "location_id": "loc-1"
+    },
+    {
+      "sku": "TEE-BLK-M",
+      "available": 0,
+      "occurred_at": "2026-06-23T14:00:00",
+      "location_id": "loc-1"
+    },
+    {
+      "sku": "TEE-GRY-M",
+      "available": 10,
+      "occurred_at": "2026-06-23T23:00:00",
+      "location_id": "loc-1"
+    },
+    {
+      "sku": "HOOD-BLK-L",
+      "available": 40,
+      "occurred_at": "2026-06-23T23:00:00",
+      "location_id": "loc-1"
+    },
+    {
+      "sku": "CAP-RED",
+      "available": 60,
+      "occurred_at": "2026-06-23T23:00:00",
+      "location_id": "loc-1"
+    },
+    {
+      "sku": "SOCK-3PK",
+      "available": 80,
+      "occurred_at": "2026-06-23T23:00:00",
+      "location_id": "loc-1"
+    }
+  ],
+  "get_order_velocity|{\"sku\": \"TEE-BLK-M\", \"window\": 14}": {
+    "sku": "TEE-BLK-M",
+    "units": 119,
+    "window_days": 14,
+    "per_day": 8.5
+  },
+  "get_orders|{\"end_date\": \"2026-06-23\", \"start_date\": \"2026-06-23\"}": [
+    {
+      "order_ref": "#D01046",
+      "created_at": "2026-06-23T09:30:00",
+      "total_price": 50.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-BLK-M",
+          "title": "Black Tee \u2014 M",
+          "quantity": 2,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01047",
+      "created_at": "2026-06-23T10:30:00",
+      "total_price": 50.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-BLK-M",
+          "title": "Black Tee \u2014 M",
+          "quantity": 2,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01048",
+      "created_at": "2026-06-23T11:30:00",
+      "total_price": 50.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-BLK-M",
+          "title": "Black Tee \u2014 M",
+          "quantity": 2,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01049",
+      "created_at": "2026-06-23T12:30:00",
+      "total_price": 25.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-BLK-M",
+          "title": "Black Tee \u2014 M",
+          "quantity": 1,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01050",
+      "created_at": "2026-06-23T12:00:00",
+      "total_price": 50.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-GRY-M",
+          "title": "Grey Tee \u2014 M",
+          "quantity": 2,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01051",
+      "created_at": "2026-06-23T18:00:00",
+      "total_price": 75.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-GRY-M",
+          "title": "Grey Tee \u2014 M",
+          "quantity": 3,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01052",
+      "created_at": "2026-06-23T12:00:00",
+      "total_price": 120.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "HOOD-BLK-L",
+          "title": "Black Hoodie \u2014 L",
+          "quantity": 2,
+          "price": 60.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01053",
+      "created_at": "2026-06-23T18:00:00",
+      "total_price": 120.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "HOOD-BLK-L",
+          "title": "Black Hoodie \u2014 L",
+          "quantity": 2,
+          "price": 60.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01054",
+      "created_at": "2026-06-23T11:00:00",
+      "total_price": 40.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "CAP-RED",
+          "title": "Red Cap",
+          "quantity": 2,
+          "price": 20.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01055",
+      "created_at": "2026-06-23T15:00:00",
+      "total_price": 40.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "CAP-RED",
+          "title": "Red Cap",
+          "quantity": 2,
+          "price": 20.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01056",
+      "created_at": "2026-06-23T19:00:00",
+      "total_price": 40.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "CAP-RED",
+          "title": "Red Cap",
+          "quantity": 2,
+          "price": 20.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01057",
+      "created_at": "2026-06-23T10:00:00",
+      "total_price": 24.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "SOCK-3PK",
+          "title": "Socks 3-pack",
+          "quantity": 2,
+          "price": 12.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01058",
+      "created_at": "2026-06-23T12:00:00",
+      "total_price": 24.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "SOCK-3PK",
+          "title": "Socks 3-pack",
+          "quantity": 2,
+          "price": 12.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01059",
+      "created_at": "2026-06-23T14:00:00",
+      "total_price": 24.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "SOCK-3PK",
+          "title": "Socks 3-pack",
+          "quantity": 2,
+          "price": 12.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01060",
+      "created_at": "2026-06-23T16:00:00",
+      "total_price": 24.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "SOCK-3PK",
+          "title": "Socks 3-pack",
+          "quantity": 2,
+          "price": 12.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01061",
+      "created_at": "2026-06-23T18:00:00",
+      "total_price": 24.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "SOCK-3PK",
+          "title": "Socks 3-pack",
+          "quantity": 2,
+          "price": 12.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D01062",
+      "created_at": "2026-06-23T20:00:00",
+      "total_price": 12.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "SOCK-3PK",
+          "title": "Socks 3-pack",
+          "quantity": 1,
+          "price": 12.0
+        }
+      ]
+    }
+  ],
+  "get_orders|{\"end_date\": \"2026-06-16\", \"start_date\": \"2026-06-16\"}": [
+    {
+      "order_ref": "#D00912",
+      "created_at": "2026-06-16T09:51:00",
+      "total_price": 50.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-BLK-M",
+          "title": "Black Tee \u2014 M",
+          "quantity": 2,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00913",
+      "created_at": "2026-06-16T11:34:00",
+      "total_price": 50.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-BLK-M",
+          "title": "Black Tee \u2014 M",
+          "quantity": 2,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00914",
+      "created_at": "2026-06-16T13:17:00",
+      "total_price": 50.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-BLK-M",
+          "title": "Black Tee \u2014 M",
+          "quantity": 2,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00915",
+      "created_at": "2026-06-16T15:00:00",
+      "total_price": 50.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-BLK-M",
+          "title": "Black Tee \u2014 M",
+          "quantity": 2,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00916",
+      "created_at": "2026-06-16T16:42:00",
+      "total_price": 50.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-BLK-M",
+          "title": "Black Tee \u2014 M",
+          "quantity": 2,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00917",
+      "created_at": "2026-06-16T18:25:00",
+      "total_price": 50.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-BLK-M",
+          "title": "Black Tee \u2014 M",
+          "quantity": 2,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00918",
+      "created_at": "2026-06-16T20:08:00",
+      "total_price": 50.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-BLK-M",
+          "title": "Black Tee \u2014 M",
+          "quantity": 2,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00919",
+      "created_at": "2026-06-16T12:00:00",
+      "total_price": 50.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-GRY-M",
+          "title": "Grey Tee \u2014 M",
+          "quantity": 2,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00920",
+      "created_at": "2026-06-16T18:00:00",
+      "total_price": 75.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "TEE-GRY-M",
+          "title": "Grey Tee \u2014 M",
+          "quantity": 3,
+          "price": 25.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00921",
+      "created_at": "2026-06-16T12:00:00",
+      "total_price": 120.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "HOOD-BLK-L",
+          "title": "Black Hoodie \u2014 L",
+          "quantity": 2,
+          "price": 60.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00922",
+      "created_at": "2026-06-16T18:00:00",
+      "total_price": 120.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "HOOD-BLK-L",
+          "title": "Black Hoodie \u2014 L",
+          "quantity": 2,
+          "price": 60.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00923",
+      "created_at": "2026-06-16T11:00:00",
+      "total_price": 40.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "CAP-RED",
+          "title": "Red Cap",
+          "quantity": 2,
+          "price": 20.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00924",
+      "created_at": "2026-06-16T15:00:00",
+      "total_price": 40.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "CAP-RED",
+          "title": "Red Cap",
+          "quantity": 2,
+          "price": 20.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00925",
+      "created_at": "2026-06-16T19:00:00",
+      "total_price": 40.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "CAP-RED",
+          "title": "Red Cap",
+          "quantity": 2,
+          "price": 20.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00926",
+      "created_at": "2026-06-16T10:30:00",
+      "total_price": 24.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "SOCK-3PK",
+          "title": "Socks 3-pack",
+          "quantity": 2,
+          "price": 12.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00927",
+      "created_at": "2026-06-16T13:30:00",
+      "total_price": 24.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "SOCK-3PK",
+          "title": "Socks 3-pack",
+          "quantity": 2,
+          "price": 12.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00928",
+      "created_at": "2026-06-16T16:30:00",
+      "total_price": 24.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "SOCK-3PK",
+          "title": "Socks 3-pack",
+          "quantity": 2,
+          "price": 12.0
+        }
+      ]
+    },
+    {
+      "order_ref": "#D00929",
+      "created_at": "2026-06-16T19:30:00",
+      "total_price": 36.0,
+      "financial_status": "paid",
+      "line_items": [
+        {
+          "sku": "SOCK-3PK",
+          "title": "Socks 3-pack",
+          "quantity": 3,
+          "price": 12.0
+        }
+      ]
+    }
+  ],
+  "get_inventory_levels|{}": [
+    {
+      "sku": "TEE-BLK-M",
+      "title": "Black Tee \u2014 M",
+      "available": 0
+    },
+    {
+      "sku": "TEE-GRY-M",
+      "title": "Grey Tee \u2014 M",
+      "available": 10
+    },
+    {
+      "sku": "HOOD-BLK-L",
+      "title": "Black Hoodie \u2014 L",
+      "available": 40
+    },
+    {
+      "sku": "CAP-RED",
+      "title": "Red Cap",
+      "available": 60
+    },
+    {
+      "sku": "SOCK-3PK",
+      "title": "Socks 3-pack",
+      "available": 80
+    }
+  ],
+  "get_order_velocity|{\"sku\": \"TEE-GRY-M\", \"window\": 14}": {
+    "sku": "TEE-GRY-M",
+    "units": 43,
+    "window_days": 14,
+    "per_day": 3.071
+  },
+  "get_order_velocity|{\"sku\": \"HOOD-BLK-L\", \"window\": 14}": {
+    "sku": "HOOD-BLK-L",
+    "units": 36,
+    "window_days": 14,
+    "per_day": 2.571
+  },
+  "get_order_velocity|{\"sku\": \"CAP-RED\", \"window\": 14}": {
+    "sku": "CAP-RED",
+    "units": 57,
+    "window_days": 14,
+    "per_day": 4.071
+  },
+  "get_order_velocity|{\"sku\": \"SOCK-3PK\", \"window\": 14}": {
+    "sku": "SOCK-3PK",
+    "units": 113,
+    "window_days": 14,
+    "per_day": 8.071
+  }
+}

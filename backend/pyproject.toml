@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scout"
+version = "0.1.0"
+description = "Scout — autonomous data analyst for Shopify sellers"
+requires-python = ">=3.11"
+# Why pyproject (not requirements.txt): single source of truth for deps + editable
+# install (`pip install -e .`) so `import scout` works everywhere, and Docker layers
+# cache cleanly. Optional groups keep the demo runnable without the full heavy stack.
+dependencies = [
+    "pydantic>=2.6",
+    "pydantic-settings>=2.2",
+    "python-dotenv>=1.0",
+    "sqlalchemy>=2.0",
+    "alembic>=1.13",
+    "httpx>=0.27",
+    "structlog>=24.1",
+]
+
+[project.optional-dependencies]
+agent = [
+    "langgraph>=0.2",
+    "langchain-core>=0.3",
+    "langchain-openai>=0.2",
+    "openai>=1.30",
+    "langsmith>=0.1",
+    "mcp>=1.2",
+]
+api = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+]
+notify = [
+    "slack-sdk>=3.27",
+    "sendgrid>=6.11",
+]
+dashboard = [
+    "streamlit>=1.33",
+    "pandas>=2.2",
+    "altair>=5.2",
+]
+postgres = [
+    "psycopg[binary]>=3.1",
+]
+dev = [
+    "pytest>=8.0",
+]
+# Everything, for the single-container v1 image.
+all = [
+    "scout[agent,api,notify,dashboard,dev]",
+]
+
+[tool.setuptools.packages.find]
+include = ["scout*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

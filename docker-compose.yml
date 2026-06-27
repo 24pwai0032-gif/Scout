@@ -1,0 +1,57 @@
+# Local dev: API (with in-process queue worker + agent + MCP subprocess + capture),
+# a scheduled backfill worker, the Streamlit dashboard, and Postgres.
+# Demo mode by default — runs with NO Shopify/OpenAI creds. Flip env to go live.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: scout
+      POSTGRES_PASSWORD: scout
+      POSTGRES_DB: scout
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scout"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # One-shot: create tables + seed the deterministic demo store, then exit.
+  seed:
+    build: ./backend
+    command: python -m scout.capture.seed_demo
+    environment: &appenv
+      SCOUT_DATA_SOURCE: demo
+      SCOUT_LLM_MODE: stub
+      SCOUT_MCP_TRANSPORT: stdio
+      SCOUT_STORE_ID: demo-store
+      SCOUT_DATABASE_URL: postgresql+psycopg://scout:scout@db:5432/scout
+    depends_on:
+      db: { condition: service_healthy }
+
+  api:
+    build: ./backend
+    ports: ["8000:8000"]
+    environment: *appenv
+    depends_on:
+      seed: { condition: service_completed_successfully }
+
+  worker:
+    build: ./backend
+    command: python scripts/scheduler.py
+    environment:
+      <<: *appenv
+      SCOUT_BACKFILL_INTERVAL: "900"
+    depends_on:
+      seed: { condition: service_completed_successfully }
+
+  dashboard:
+    build: ./frontend
+    ports: ["8501:8501"]
+    environment:
+      SCOUT_API_URL: http://api:8000
+      SCOUT_STORE_ID: demo-store
+    depends_on: [api]
+
+volumes:
+  pgdata:

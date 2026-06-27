@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      SCOUT_DATA_SOURCE: demo
+      SCOUT_LLM_MODE: stub
+      SCOUT_MCP_TRANSPORT: inprocess   # no MCP subprocess in CI
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install backend (all extras)
+        run: pip install -e ".[all]"
+      - name: Tests
+        run: pytest -q
+      - name: Eval (gated precision/recall/attribution)
+        run: python -m eval.run_eval

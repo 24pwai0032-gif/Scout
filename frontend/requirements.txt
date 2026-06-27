@@ -1,0 +1,7 @@
+# Frontend is a standalone Streamlit app that talks to the backend over HTTP only.
+# It imports NO backend code, so it has its own minimal deps (deployable to
+# Streamlit Community Cloud independently of the backend).
+streamlit>=1.33
+pandas>=2.2
+altair>=5.2
+httpx>=0.27
