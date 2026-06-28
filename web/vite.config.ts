@@ -8,4 +8,16 @@ export default defineConfig({
     alias: { "@": path.resolve(__dirname, "src") },
   },
   server: { port: 5173 },
+  build: {
+    rollupOptions: {
+      output: {
+        // Split heavy libs so no single chunk balloons past the warning threshold.
+        manualChunks: {
+          react: ["react", "react-dom", "react-router-dom"],
+          charts: ["recharts"],
+          motion: ["framer-motion"],
+        },
+      },
+    },
+  },
 });
