@@ -75,30 +75,31 @@ Effort: S (minutes) · M (~hour) · L (multi-hour/multi-day)
 
 ---
 
-## 3. Optional code polish (🤖 I can do these)
+## 3. Optional code polish
 
-### 3.1 🤖 M — `/investigations` backend endpoint (make that page live)
-- The React **Investigations** page is currently **mock-only** — the backend has no run-history
-  endpoint. To make it real: add an `InvestigationRun` table, persist run metadata in
-  `scout/api/queue.py:run_pipeline` (trigger, status, duration, finding id), add
-  `GET /investigations`, and point `web/src/pages/Investigations.tsx` at it.
+### 3.1 ✅ DONE — `/investigations` backend endpoint (page is now live)
+- Added `InvestigationRun` table + migration, run metadata recorded in
+  `scout/api/queue.py:run_pipeline` (trigger/status/duration/finding id), `GET /investigations`,
+  and `web/src/pages/Investigations.tsx` now fetches it (with mock fallback). Test added.
 
-### 3.2 🤖 S — Sign-in screen
-- Listed "optional" in the design brief; not built. Add a minimal on-brand `/signin` route
-  (no real auth needed for v1, or wire a simple token gate).
+### 3.2 ✅ DONE — Sign-in screen
+- On-brand `/signin` route (`web/src/pages/SignIn.tsx`) + "Sign out" in the sidebar.
+  No real auth in v1 — any input continues to the dashboard (labeled as such).
 
-### 3.3 🤖 S — Real-LLM finding wording
-- Groq findings sometimes use the SKU code (`TEE-BLK-M`) instead of the friendly title
-  (`Black Tee`). Pass product titles into the `synthesize` payload
-  (`scout/agent/llm.py:_llm_synthesize`) so the LLM always uses human names.
+### 3.3 ✅ DONE — Findings use product titles
+- Stockout routine resolves the SKU → title (`Black Tee`, not `TEE-BLK-M`) and passes it into
+  the finding, so both the template and the LLM use human names.
 
-### 3.4 👤+🤖 S — Notifications (Slack / SendGrid) live test
+### 3.4 👤+🤖 S — Notifications (Slack / SendGrid) live test — _still open_
 - Code is wired and fails soft. To verify end-to-end, set `SLACK_ENABLED=true` +
-  `SLACK_BOT_TOKEN` (and/or `EMAIL_ENABLED=true` + `SENDGRID_API_KEY`) — needs your keys.
+  `SLACK_BOT_TOKEN` (and/or `EMAIL_ENABLED=true` + `SENDGRID_API_KEY`) — **needs your keys**.
 
-### 3.5 🤖 S — Web app CI
-- Add a GitHub Actions job for `web/` (`npm ci && npm run build`) alongside the backend CI.
-  (Blocked from running until GitHub billing is sorted, but the workflow can be committed.)
+### 3.5 ✅ DONE — Web app CI
+- Added a `web` job to `.github/workflows/ci.yml` (`npm ci` → typecheck → build).
+  (Runs once GitHub billing is sorted; the workflow is committed.)
+
+> Also fixed: the eval harness now pins demo/stub env so it's reproducible regardless of a
+> local `.env` pointing at a live store.
 
 ---
 

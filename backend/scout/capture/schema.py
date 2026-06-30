@@ -133,3 +133,18 @@ class FindingRecord(Base):
     confidence: Mapped[float] = mapped_column(Float, default=0.0)
     payload_json: Mapped[str] = mapped_column(String)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow, index=True)
+
+
+class InvestigationRun(Base):
+    """Audit log of every investigation run (manual / webhook / scheduled)."""
+
+    __tablename__ = "investigation_runs"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True)  # short uuid
+    store_id: Mapped[str] = mapped_column(String, index=True)
+    trigger: Mapped[str] = mapped_column(String, default="manual")  # manual|webhook|schedule
+    status: Mapped[str] = mapped_column(String, default="completed")  # completed|inconclusive|failed
+    outcome: Mapped[str] = mapped_column(String, default="")
+    duration_ms: Mapped[int] = mapped_column(Integer, default=0)
+    finding_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    started_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow, index=True)

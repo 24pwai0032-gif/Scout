@@ -13,7 +13,7 @@ from fastapi import FastAPI, Header, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from scout.api.persistence import list_findings
+from scout.api.persistence import list_findings, list_runs
 from scout.api.queue import get_queue
 from scout.capture.db import init_db
 from scout.capture.webhooks import handle_inventory_update, handle_orders_create, verify_hmac
@@ -67,6 +67,11 @@ def scout_run(body: RunRequest) -> dict:
 @app.get("/findings")
 def get_findings(store_id: str | None = None, limit: int = 50) -> dict:
     return {"findings": list_findings(store_id, limit)}
+
+
+@app.get("/investigations")
+def get_investigations(store_id: str | None = None, limit: int = 50) -> dict:
+    return {"runs": list_runs(store_id, limit)}
 
 
 @app.get("/metrics/revenue")

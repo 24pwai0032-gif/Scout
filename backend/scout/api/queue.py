@@ -11,12 +11,14 @@ import threading
 import time
 from datetime import timedelta
 from queue import Empty, Queue
+from uuid import uuid4
 
 from scout.agent.detection import detect_recent
 from scout.agent.graph import run_investigation
 from scout.agent.llm import make_llm
 from scout.agent.mcp_client import make_tools
-from scout.api.persistence import save_finding
+from scout.api.persistence import save_finding, save_run
+from scout.capture.schema import InvestigationRun
 from scout.config import get_settings
 from scout.logging_config import get_logger
 from scout.timeutil import utcnow
@@ -24,31 +26,54 @@ from scout.timeutil import utcnow
 log = get_logger("scout.api.queue")
 
 
-def run_pipeline(store_id: str) -> int | None:
-    """Detect the strongest recent anomaly, investigate it, persist + notify. Returns
-    the finding id, or None if nothing to report."""
+def run_pipeline(store_id: str, trigger: str = "manual") -> int | None:
+    """Detect the strongest recent anomaly, investigate it, persist + notify. Records an
+    InvestigationRun audit row regardless of outcome. Returns the finding id, or None."""
     settings = get_settings()
-    anomalies = detect_recent(store_id, "revenue", lookback_days=14, settings=settings)
-    if not anomalies:
-        log.info("pipeline_no_anomaly", store_id=store_id)
-        return None
-    anomaly = max(anomalies, key=lambda a: a.score)
-    tools = make_tools(settings)
+    run_id = uuid4().hex[:8]
+    started = utcnow()
+    t0 = time.perf_counter()
+    status, outcome, fid = "completed", "", None
     try:
-        finding = run_investigation(anomaly, tools, make_llm(settings), settings)
+        anomalies = detect_recent(store_id, "revenue", lookback_days=14, settings=settings)
+        if not anomalies:
+            outcome = "No anomaly (weekdays within baseline)"
+            log.info("pipeline_no_anomaly", store_id=store_id)
+        else:
+            anomaly = max(anomalies, key=lambda a: a.score)
+            tools = make_tools(settings)
+            try:
+                finding = run_investigation(anomaly, tools, make_llm(settings), settings)
+            finally:
+                try:
+                    tools.close()
+                except Exception as exc:
+                    log.warning("tools_close_error", error=str(exc))
+            fid = save_finding(finding)
+            cause = finding.confirmed_cause.value if finding.confirmed_cause else None
+            status = "inconclusive" if finding.inconclusive else "completed"
+            outcome = f"{cause} — {finding.headline[:64]}" if cause else "No cause confirmed"
+            log.info("pipeline_finding_saved", store_id=store_id, finding_id=fid)
+            try:
+                from scout.notifications import dispatch
+
+                dispatch(finding)
+            except Exception as exc:  # notifications must never crash the pipeline
+                log.warning("notify_error", error=str(exc))
+    except Exception as exc:
+        status, outcome = "failed", str(exc)[:120]
+        log.error("pipeline_error", store_id=store_id, error=str(exc))
     finally:
         try:
-            tools.close()
+            save_run(
+                InvestigationRun(
+                    id=run_id, store_id=store_id, trigger=trigger, status=status,
+                    outcome=outcome, duration_ms=int((time.perf_counter() - t0) * 1000),
+                    finding_id=fid, started_at=started,
+                )
+            )
         except Exception as exc:
-            log.warning("tools_close_error", error=str(exc))
-    fid = save_finding(finding)
-    log.info("pipeline_finding_saved", store_id=store_id, finding_id=fid)
-    try:
-        from scout.notifications import dispatch
-
-        dispatch(finding)
-    except Exception as exc:  # notifications must never crash the pipeline
-        log.warning("notify_error", error=str(exc))
+            log.warning("run_record_error", error=str(exc))
     return fid
 
 
@@ -90,11 +115,19 @@ class InvestigationQueue:
             except Empty:
                 continue
             try:
-                run_pipeline(store_id)
+                run_pipeline(store_id, trigger=_trigger_from_reason(reason))
             except Exception as exc:
                 log.error("pipeline_error", store_id=store_id, error=str(exc))
             finally:
                 self._q.task_done()
+
+
+def _trigger_from_reason(reason: str) -> str:
+    if reason.startswith("webhook"):
+        return "webhook"
+    if reason in ("schedule", "backfill"):
+        return "schedule"
+    return "manual"
 
 
 _QUEUE: InvestigationQueue | None = None

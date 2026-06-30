@@ -40,9 +40,16 @@ class _InProcess:
 
 
 def main() -> int:
+    # The eval is a deterministic OFFLINE harness — pin it independent of any local .env
+    # (which may point at a live Shopify store / real LLM).
+    os.environ["SCOUT_DATA_SOURCE"] = "demo"
+    os.environ["SCOUT_LLM_MODE"] = "stub"
+    os.environ["SCOUT_STORE_ID"] = "demo-store"
+    os.environ["SCOUT_MCP_TRANSPORT"] = "inprocess"
+    get_settings.cache_clear()
+
     settings = get_settings()
     configure_logging(settings.log_level, settings.log_json)
-    os.environ.setdefault("SCOUT_LLM_MODE", "stub")  # pin LLM for reproducibility
 
     seed(settings.store_id)  # deterministic fixture source
     cases = golden_cases()

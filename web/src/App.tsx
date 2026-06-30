@@ -5,11 +5,13 @@ import { FindingDetail } from "@/pages/FindingDetail";
 import { Monitoring } from "@/pages/Monitoring";
 import { Investigations } from "@/pages/Investigations";
 import { Settings } from "@/pages/Settings";
+import { SignIn } from "@/pages/SignIn";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/signin" element={<SignIn />} />
         <Route element={<AppShell />}>
           <Route index element={<FindingsFeed />} />
           <Route path="findings/:id" element={<FindingDetail />} />

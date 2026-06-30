@@ -72,13 +72,15 @@ def routine_stockout(anomaly: AnomalyEvent, tools: Tools, specifics: dict) -> Ro
         result_summary=f"{sku} averaged {vel['per_day']} units/day before stockout",
         supports=vel["per_day"] > 0,
     ))
+    title = next((lvl.get("title") for lvl in tools.get_inventory_levels() if lvl.get("sku") == sku), None)
     ev[0].supports = True
-    ev[0].result_summary = f"{sku} hit 0 units at {t.strftime('%H:%M')} on {day}"
+    ev[0].result_summary = f"{title or sku} hit 0 units at {t.strftime('%H:%M')} on {day}"
     confidence = 0.9 if vel["per_day"] > 0 else 0.5
     friendly = f"{(t.hour % 12) or 12}{'am' if t.hour < 12 else 'pm'}"  # 14:00 -> '2pm'
     return RoutineResult(
         ev, Verdict.CONFIRMED, confidence,
-        {"stockout_sku": sku, "stockout_time": friendly, "stockout_time_24": t.strftime("%H:%M")},
+        {"stockout_sku": sku, "stockout_title": title or sku,
+         "stockout_time": friendly, "stockout_time_24": t.strftime("%H:%M")},
     )
 
 

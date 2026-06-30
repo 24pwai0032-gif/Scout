@@ -214,7 +214,7 @@ def _template_finding(anomaly: AnomalyEvent, investigated, at_risk) -> dict:
     if driver:
         title = driver.hypothesis.specifics.get("driver_title")
     if stock and not title:
-        title = stock.hypothesis.specifics.get("stockout_sku")
+        title = stock.hypothesis.specifics.get("stockout_title") or stock.hypothesis.specifics.get("stockout_sku")
 
     if stock:
         when = stock.hypothesis.specifics.get("stockout_time", "during the day")

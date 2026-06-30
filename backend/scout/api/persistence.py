@@ -7,7 +7,7 @@ import json
 from sqlalchemy import select
 
 from scout.capture.db import session_scope
-from scout.capture.schema import FindingRecord
+from scout.capture.schema import FindingRecord, InvestigationRun
 from scout.models import Finding
 
 
@@ -40,6 +40,32 @@ def list_findings(store_id: str | None = None, limit: int = 50) -> list[dict]:
                 "confidence": r.confidence,
                 "created_at": r.created_at.isoformat(),
                 "finding": json.loads(r.payload_json),
+            }
+            for r in rows
+        ]
+
+
+def save_run(run: InvestigationRun) -> None:
+    with session_scope() as s:
+        s.add(run)
+
+
+def list_runs(store_id: str | None = None, limit: int = 50) -> list[dict]:
+    with session_scope() as s:
+        q = select(InvestigationRun).order_by(InvestigationRun.started_at.desc()).limit(limit)
+        if store_id:
+            q = q.where(InvestigationRun.store_id == store_id)
+        rows = s.execute(q).scalars().all()
+        return [
+            {
+                "id": r.id,
+                "store_id": r.store_id,
+                "trigger": r.trigger,
+                "status": r.status,
+                "outcome": r.outcome,
+                "durationMs": r.duration_ms,
+                "findingId": r.finding_id,
+                "startedAt": r.started_at.isoformat(),
             }
             for r in rows
         ]

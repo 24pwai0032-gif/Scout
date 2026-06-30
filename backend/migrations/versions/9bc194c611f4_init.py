@@ -1,8 +1,8 @@
 """init
 
-Revision ID: e9bfb22efa19
+Revision ID: 9bc194c611f4
 Revises: 
-Create Date: 2026-06-28 00:29:38.949131
+Create Date: 2026-06-30 22:47:50.372013
 """
 from typing import Sequence, Union
 
@@ -10,7 +10,7 @@ from alembic import op
 import sqlalchemy as sa
 
 
-revision: str = 'e9bfb22efa19'
+revision: str = '9bc194c611f4'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -44,6 +44,19 @@ def upgrade() -> None:
     op.create_index(op.f('ix_inventory_level_events_occurred_at'), 'inventory_level_events', ['occurred_at'], unique=False)
     op.create_index(op.f('ix_inventory_level_events_sku'), 'inventory_level_events', ['sku'], unique=False)
     op.create_index(op.f('ix_inventory_level_events_store_id'), 'inventory_level_events', ['store_id'], unique=False)
+    op.create_table('investigation_runs',
+    sa.Column('id', sa.String(), nullable=False),
+    sa.Column('store_id', sa.String(), nullable=False),
+    sa.Column('trigger', sa.String(), nullable=False),
+    sa.Column('status', sa.String(), nullable=False),
+    sa.Column('outcome', sa.String(), nullable=False),
+    sa.Column('duration_ms', sa.Integer(), nullable=False),
+    sa.Column('finding_id', sa.Integer(), nullable=True),
+    sa.Column('started_at', sa.DateTime(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_investigation_runs_started_at'), 'investigation_runs', ['started_at'], unique=False)
+    op.create_index(op.f('ix_investigation_runs_store_id'), 'investigation_runs', ['store_id'], unique=False)
     op.create_table('metric_timeseries',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('store_id', sa.String(), nullable=False),
@@ -125,6 +138,9 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_metric_timeseries_metric'), table_name='metric_timeseries')
     op.drop_index(op.f('ix_metric_timeseries_day'), table_name='metric_timeseries')
     op.drop_table('metric_timeseries')
+    op.drop_index(op.f('ix_investigation_runs_store_id'), table_name='investigation_runs')
+    op.drop_index(op.f('ix_investigation_runs_started_at'), table_name='investigation_runs')
+    op.drop_table('investigation_runs')
     op.drop_index(op.f('ix_inventory_level_events_store_id'), table_name='inventory_level_events')
     op.drop_index(op.f('ix_inventory_level_events_sku'), table_name='inventory_level_events')
     op.drop_index(op.f('ix_inventory_level_events_occurred_at'), table_name='inventory_level_events')

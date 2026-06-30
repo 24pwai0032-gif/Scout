@@ -51,10 +51,37 @@
   ],
   "get_order_velocity|{\"sku\": \"TEE-BLK-M\", \"window\": 14}": {
     "sku": "TEE-BLK-M",
-    "units": 119,
+    "units": 86,
     "window_days": 14,
-    "per_day": 8.5
+    "per_day": 6.143
   },
+  "get_inventory_levels|{}": [
+    {
+      "sku": "TEE-BLK-M",
+      "title": "Black Tee \u2014 M",
+      "available": 0
+    },
+    {
+      "sku": "TEE-GRY-M",
+      "title": "Grey Tee \u2014 M",
+      "available": 10
+    },
+    {
+      "sku": "HOOD-BLK-L",
+      "title": "Black Hoodie \u2014 L",
+      "available": 40
+    },
+    {
+      "sku": "CAP-RED",
+      "title": "Red Cap",
+      "available": 60
+    },
+    {
+      "sku": "SOCK-3PK",
+      "title": "Socks 3-pack",
+      "available": 80
+    }
+  ],
   "get_orders|{\"end_date\": \"2026-06-23\", \"start_date\": \"2026-06-23\"}": [
     {
       "order_ref": "#D01046",
@@ -549,55 +576,28 @@
       ]
     }
   ],
-  "get_inventory_levels|{}": [
-    {
-      "sku": "TEE-BLK-M",
-      "title": "Black Tee \u2014 M",
-      "available": 0
-    },
-    {
-      "sku": "TEE-GRY-M",
-      "title": "Grey Tee \u2014 M",
-      "available": 10
-    },
-    {
-      "sku": "HOOD-BLK-L",
-      "title": "Black Hoodie \u2014 L",
-      "available": 40
-    },
-    {
-      "sku": "CAP-RED",
-      "title": "Red Cap",
-      "available": 60
-    },
-    {
-      "sku": "SOCK-3PK",
-      "title": "Socks 3-pack",
-      "available": 80
-    }
-  ],
   "get_order_velocity|{\"sku\": \"TEE-GRY-M\", \"window\": 14}": {
     "sku": "TEE-GRY-M",
+    "units": 34,
+    "window_days": 14,
+    "per_day": 2.429
+  },
+  "get_order_velocity|{\"sku\": \"HOOD-BLK-L\", \"window\": 14}": {
+    "sku": "HOOD-BLK-L",
+    "units": 28,
+    "window_days": 14,
+    "per_day": 2.0
+  },
+  "get_order_velocity|{\"sku\": \"CAP-RED\", \"window\": 14}": {
+    "sku": "CAP-RED",
     "units": 43,
     "window_days": 14,
     "per_day": 3.071
   },
-  "get_order_velocity|{\"sku\": \"HOOD-BLK-L\", \"window\": 14}": {
-    "sku": "HOOD-BLK-L",
-    "units": 36,
-    "window_days": 14,
-    "per_day": 2.571
-  },
-  "get_order_velocity|{\"sku\": \"CAP-RED\", \"window\": 14}": {
-    "sku": "CAP-RED",
-    "units": 57,
-    "window_days": 14,
-    "per_day": 4.071
-  },
   "get_order_velocity|{\"sku\": \"SOCK-3PK\", \"window\": 14}": {
     "sku": "SOCK-3PK",
-    "units": 113,
+    "units": 89,
     "window_days": 14,
-    "per_day": 8.071
+    "per_day": 6.357
   }
 }

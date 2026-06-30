@@ -1,5 +1,5 @@
-import type { Finding, InventoryLevel, RevenuePoint } from "./types";
-import { mockFindings, mockInventory, mockRevenue } from "./mock";
+import type { Finding, InventoryLevel, InvestigationRun, RevenuePoint } from "./types";
+import { mockFindings, mockInventory, mockRevenue, mockRuns } from "./mock";
 
 const env = import.meta.env as Record<string, string | undefined>;
 export const API_URL = env.VITE_API_URL || "http://localhost:8000";
@@ -93,6 +93,27 @@ export async function getInventory(): Promise<Result<InventoryLevel[]>> {
     return data.length ? { data, source: "live" } : { data: mockInventory, source: "mock" };
   } catch {
     return { data: mockInventory, source: "mock" };
+  }
+}
+
+export async function getInvestigations(): Promise<Result<InvestigationRun[]>> {
+  try {
+    const json = await tryFetch<{ runs: any[] }>(
+      `/investigations?store_id=${encodeURIComponent(STORE_ID)}&limit=50`,
+    );
+    const data: InvestigationRun[] = (json.runs ?? []).map((r) => ({
+      id: r.id,
+      trigger: r.trigger,
+      status: r.status,
+      startedAt: r.startedAt,
+      durationMs: r.durationMs ?? 0,
+      store_id: r.store_id ?? STORE_ID,
+      outcome: r.outcome ?? "",
+      findingId: r.findingId ?? null,
+    }));
+    return data.length ? { data, source: "live" } : { data: mockRuns, source: "mock" };
+  } catch {
+    return { data: mockRuns, source: "mock" };
   }
 }
 

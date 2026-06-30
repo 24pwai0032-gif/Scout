@@ -1,10 +1,13 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowUpDown, Webhook, Clock, MousePointerClick, ChevronRight } from "lucide-react";
-import { mockRuns } from "@/lib/mock";
+import { ArrowUpDown, Webhook, Clock, MousePointerClick, ChevronRight, History } from "lucide-react";
+import { getInvestigations } from "@/lib/api";
+import { useResource } from "@/lib/useResource";
 import type { InvestigationRun, Severity } from "@/lib/types";
 import { relativeTime } from "@/lib/format";
 import { Card } from "@/components/ui/Card";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { StatusPill } from "@/components/ui/StatusPill";
 
 const STATUS_SEV: Record<InvestigationRun["status"], { sev: Severity; label: string }> = {
@@ -20,18 +23,19 @@ type SortKey = "startedAt" | "durationMs" | "status";
 
 export function Investigations() {
   const nav = useNavigate();
+  const { data: runs, loading } = useResource(getInvestigations);
   const [key, setKey] = useState<SortKey>("startedAt");
   const [asc, setAsc] = useState(false);
 
   const rows = useMemo(() => {
-    return [...mockRuns].sort((a, b) => {
+    return [...(runs ?? [])].sort((a, b) => {
       let cmp = 0;
       if (key === "startedAt") cmp = new Date(a.startedAt).getTime() - new Date(b.startedAt).getTime();
       else if (key === "durationMs") cmp = a.durationMs - b.durationMs;
       else cmp = a.status.localeCompare(b.status);
       return asc ? cmp : -cmp;
     });
-  }, [key, asc]);
+  }, [runs, key, asc]);
 
   const sortBtn = (k: SortKey, label: string) => (
     <button
@@ -49,6 +53,19 @@ export function Investigations() {
         <p className="mt-0.5 text-sm text-muted">Every run — manual, scheduled, and webhook-triggered.</p>
       </div>
 
+      {loading ? (
+        <Card className="p-4">
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="mt-2 h-8 w-full" />
+          <Skeleton className="mt-2 h-8 w-full" />
+        </Card>
+      ) : rows.length === 0 ? (
+        <EmptyState
+          icon={History}
+          title="No runs yet"
+          body="Investigation runs appear here as they fire — manual, scheduled, and webhook-triggered. Trigger one from the top bar."
+        />
+      ) : (
       <Card className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[640px] text-sm">
@@ -101,6 +118,7 @@ export function Investigations() {
           </table>
         </div>
       </Card>
+      )}
     </div>
   );
 }
