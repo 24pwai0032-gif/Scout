@@ -1,6 +1,6 @@
 # Scout — What's Left
 
-_Last updated: 2026-06-28. This file tracks everything still outstanding for the Scout
+_Last updated: 2026-07-01. This file tracks everything still outstanding for the Scout
 project. The product is feature-complete and demonstrable end-to-end; what remains is
 **deployment/ops**, the unavoidable **time wait** for real data, and **optional polish**._
 
@@ -53,6 +53,13 @@ Effort: S (minutes) · M (~hour) · L (multi-hour/multi-day)
   ```
 - HMAC verification is already wired (`SHOPIFY_WEBHOOK_SECRET` set). Receive path is tested
   (forged → 401, valid → 200, SKU resolved).
+- **Webhooks are forward-only** — Shopify has no "download past history" API; events only
+  fire *after* registration. To capture **real** events on demand for a demo: create an
+  order + set a product's inventory to 0 in the Shopify admin (fires `orders/create` and
+  `inventory_levels/update` instantly). Verify with `python scripts/verify_events.py`.
+- Backfill nuance: past **orders/revenue** can be pulled from the Admin API retroactively,
+  but **inventory-event history cannot** (Admin API only exposes *current* stock) — that's
+  exactly why it must be webhook-captured going forward.
 
 ### 1.5 👤 S — Delete Shopify sample products
 - The dev store still has Shopify's defaults (snowboards, ski wax, gift cards — mostly no SKU).
@@ -67,6 +74,9 @@ Effort: S (minutes) · M (~hour) · L (multi-hour/multi-day)
 - Needs webhooks live (1.4) + **~4–6 weeks** of real orders/inventory + a deliberate stockout
   so same-weekday baselines and timestamped inventory history accumulate.
 - The backdated `cortexium-sim` finding proves the system today; this is the real-data version.
+- **For a submission/demo (no multi-week wait):** run `python scripts/seed_live_history.py`
+  (reads your real catalog, generates 8 weeks of orders + a stockout into the capture DB) →
+  produces the flagship finding today. Describe it as simulated *history* over the real store.
 
 ### 2.2 ⏳ S→M — Tune detection thresholds against real findings
 - Defaults: `SCOUT_BASELINE_SAME_WEEKDAYS=5`, `SCOUT_ROBUST_Z_THRESHOLD=3.5`,
